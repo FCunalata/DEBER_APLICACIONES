@@ -1,0 +1,26 @@
+﻿@model Tipo_Datos.Models.Entidades.ClientesModel
+
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Eliminar Cliente</h1>
+
+<h3>¿Está seguro que desea eliminar este cliente?</h3>
+
+<div>
+    <h4>@Model.Nombres</h4>
+    <p><strong>RUC:</strong> @Model.Cedula_RUC</p>
+    <p><strong>Teléfono:</strong> @Model.Telefono</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+</div>
+
+<form asp-action="EliminarConfirmado" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+
+
