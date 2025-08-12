@@ -12,20 +12,14 @@ namespace Tipo_Datos.Controllers
         {
             _dbContext = dbContext;
         }
-
-        // READ - Lista todos los clientes
         public async Task<IActionResult> Index()
         {
             return View(await _dbContext.Clientes.ToListAsync());
         }
-
-        // CREATE - Mostrar formulario nuevo cliente
         public IActionResult Nuevo()
         {
             return View();
         }
-
-        // CREATE - Guardar nuevo cliente
         [HttpPost]
         public async Task<IActionResult> Nuevo([Bind("Nombres,Email,Telefono,Direccion,Cedula_RUC,Create_At,Update_At,isDelete")] ClientesModel cliente)
         {
@@ -39,8 +33,6 @@ namespace Tipo_Datos.Controllers
             }
             return View(cliente);
         }
-
-        // Mostrar formulario editar cliente
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -50,8 +42,6 @@ namespace Tipo_Datos.Controllers
 
             return View(cliente);
         }
-
-        // Guardar cambios cliente
         [HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Email,Telefono,Direccion,Cedula_RUC,Create_At,Update_At,isDelete")] ClientesModel cliente)
         {
@@ -61,19 +51,17 @@ namespace Tipo_Datos.Controllers
             {
                 try
                 {
-                    // Traemos la entidad original desde la DB
+                
                     var clienteDb = await _dbContext.Clientes.FindAsync(id);
                     if (clienteDb == null) return NotFound();
 
-                    // Actualizamos solo las propiedades necesarias
                     clienteDb.Nombres = cliente.Nombres;
                     clienteDb.Email = cliente.Email;
                     clienteDb.Telefono = cliente.Telefono;
                     clienteDb.Direccion = cliente.Direccion;
                     clienteDb.Cedula_RUC = cliente.Cedula_RUC;
                     clienteDb.Update_At = DateTime.Now;
-
-                    // Guardamos cambios
+                    
                     await _dbContext.SaveChangesAsync();
 
                     return RedirectToAction(nameof(Index));
@@ -88,8 +76,6 @@ namespace Tipo_Datos.Controllers
             }
             return View(cliente);
         }
-
-        // DELETE - Mostrar confirmación eliminar cliente
         public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null) return NotFound();
@@ -100,8 +86,6 @@ namespace Tipo_Datos.Controllers
 
             return View(cliente);
         }
-
-        // DELETE - Confirmar y eliminar cliente
         [HttpPost, ActionName("EliminarConfirmado")]
         public async Task<IActionResult> EliminarConfirmado(int id)
         {
